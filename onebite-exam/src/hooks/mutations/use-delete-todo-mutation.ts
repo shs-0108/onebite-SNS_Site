@@ -14,10 +14,16 @@ export function useDeleteTodoMutation() {
     // 3.낙관적 업데이트 -> onMutate -> 반응은 빠르지만 요청 실패 시 데이터를 원상복구 시켜줘야함, 유저에게 혼란을 일으킬 수 있음
 
     onSuccess: (deletedTodo) => {
-      queryClient.setQueryData<Todo[]>(QUERY_KEYS.todo.list, (prevTodos) => {
-        if (!prevTodos) return [];
-        return prevTodos.filter((prevTodo) => prevTodo.id !== deletedTodo.id);
+      queryClient.removeQueries({
+        queryKey: QUERY_KEYS.todo.detail(deletedTodo.id),
       });
+      queryClient.setQueryData<string[]>(
+        QUERY_KEYS.todo.list,
+        (prevTodoIds) => {
+          if (!prevTodoIds) return [];
+          return prevTodoIds.filter((id) => id != deletedTodo.id);
+        },
+      );
     },
   });
 }
