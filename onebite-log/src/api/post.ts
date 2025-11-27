@@ -2,11 +2,12 @@ import supabase from "@/lib/supabase";
 import { uploadImage } from "./image";
 import type { PostEntity } from "@/types";
 
-export async function fetchPosts() {
+export async function fetchPosts({ from, to }: { from: number; to: number }) {
   const { data, error } = await supabase
     .from("post")
     .select("*, author: profile!author_id (*)")
-    .order("created_at", { ascending: false }); // created_at 컬럼 기준 내림차순 정렬
+    .order("created_at", { ascending: false })
+    .range(from, to); // created_at 컬럼 기준 내림차순 정렬
 
   if (error) throw error;
   return data;
