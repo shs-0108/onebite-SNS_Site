@@ -25,5 +25,8 @@ export function useInfinitePostsData() {
       if (lastPage.length < PAGE_SIZE) return undefined;
       return allPages.length;
     },
+
+    // 무한 스크롤 캐시 최적화
+    staleTime: Infinity,
   });
 }
