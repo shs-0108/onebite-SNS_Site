@@ -1,4 +1,4 @@
-import { HeartIcon, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import defaultAvatar from "@/assets/default-avatar.jpg";
 import { formatTimeAgo } from "@/lib/time";
@@ -10,6 +10,8 @@ import Loader from "../loader";
 import Fallback from "../fallback";
 import LikePostButton from "./like-post-button";
 import { Link } from "react-router";
+import { useCommentsData } from "@/hooks/queries/use-comments-data";
+import { useEffect } from "react";
 
 export default function PostItem({
   postId,
@@ -23,12 +25,21 @@ export default function PostItem({
 
   const {
     data: post,
-    error,
-    isPending,
+    error: fetchPostError,
+    isPending: isFetchPostPending,
   } = usePostByIdData({
     postId,
     type,
   });
+
+  const {
+    data: comments,
+    error: fetchCommentsError,
+    isPending: isFetchCommentsPending,
+  } = useCommentsData(postId);
+
+  const error = fetchPostError || fetchCommentsError;
+  const isPending = isFetchPostPending || isFetchCommentsPending;
 
   if (isPending) return <Loader />;
   if (error) return <Fallback />;
@@ -115,7 +126,11 @@ export default function PostItem({
           <Link to={`/post/${post.id}`}>
             <div className="hover:bg-muted flex cursor-pointer items-center gap-2 rounded-xl border-1 p-2 px-4 text-sm">
               <MessageCircle className="h-4 w-4" />
-              <span>댓글 달기</span>
+              {Number(comments?.length) > 0 ? (
+                <span>{comments?.length}</span>
+              ) : (
+                <span>댓글 달기</span>
+              )}
             </div>
           </Link>
         )}
