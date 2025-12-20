@@ -1,4 +1,4 @@
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Share2Icon } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import defaultAvatar from "@/assets/default-avatar.jpg";
 import { formatTimeAgo } from "@/lib/time";
@@ -11,7 +11,7 @@ import Fallback from "../fallback";
 import LikePostButton from "./like-post-button";
 import { Link } from "react-router";
 import { useCommentsData } from "@/hooks/queries/use-comments-data";
-import { useEffect } from "react";
+import SharePostButton from "./share-post-button";
 
 export default function PostItem({
   postId,
@@ -129,11 +129,14 @@ export default function PostItem({
               {Number(comments?.length) > 0 ? (
                 <span>{comments?.length}</span>
               ) : (
-                <span>댓글 달기</span>
+                <span>댓글</span>
               )}
             </div>
           </Link>
         )}
+
+        {/* 3-3. 공유 버튼 */}
+        <SharePostButton postId={postId} />
       </div>
     </div>
   );
