@@ -110,6 +110,8 @@ export type Database = {
           id: number
           image_urls: string[] | null
           like_count: number
+          repost_count: number
+          repost_id: number | null
         }
         Insert: {
           author_id?: string
@@ -118,6 +120,8 @@ export type Database = {
           id?: number
           image_urls?: string[] | null
           like_count?: number
+          repost_count?: number
+          repost_id?: number | null
         }
         Update: {
           author_id?: string
@@ -126,6 +130,8 @@ export type Database = {
           id?: number
           image_urls?: string[] | null
           like_count?: number
+          repost_count?: number
+          repost_id?: number | null
         }
         Relationships: [
           {
@@ -133,6 +139,13 @@ export type Database = {
             columns: ["author_id"]
             isOneToOne: false
             referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_repost_id_fkey"
+            columns: ["repost_id"]
+            isOneToOne: false
+            referencedRelation: "post"
             referencedColumns: ["id"]
           },
         ]

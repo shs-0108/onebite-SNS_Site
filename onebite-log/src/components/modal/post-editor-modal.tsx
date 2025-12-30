@@ -99,7 +99,7 @@ export default function PostEditorModal() {
         images: images.map((image) => image.file),
         userId: session!.user.id,
       });
-    } else {
+    } else if (postEditorModal.type === "EDIT") {
       if (content === postEditorModal.content) return;
       updatePost({
         id: postEditorModal.postId,

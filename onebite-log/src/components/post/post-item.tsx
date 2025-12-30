@@ -12,6 +12,7 @@ import LikePostButton from "./like-post-button";
 import { Link } from "react-router";
 import { useCommentsData } from "@/hooks/queries/use-comments-data";
 import SharePostButton from "./share-post-button";
+import RePostButton from "./re-post-button";
 
 export default function PostItem({
   postId,
@@ -135,7 +136,10 @@ export default function PostItem({
           </Link>
         )}
 
-        {/* 3-3. 공유 버튼 */}
+        {/* 3-3. 리포스트 버튼 */}
+        <RePostButton {...post} />
+
+        {/* 3-4. 공유 버튼 */}
         <SharePostButton postId={postId} />
       </div>
     </div>
